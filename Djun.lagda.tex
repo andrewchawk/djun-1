@@ -16,24 +16,27 @@ Epistemology = {!!}
 Knowledge : Set (beliefLevel ⊔ epistemologyLevel)
 Knowledge = Belief × Epistemology
 
-knowledge-is-belief : Knowledge → Belief
+knowledge-is-belief : Knowledge → Belief -- K -> B;
 knowledge-is-belief = proj₁
 
-knowledge-demands-an-epistemology : Knowledge → Epistemology
+knowledge-demands-an-epistemology : Knowledge → Epistemology -- K -> E;
 knowledge-demands-an-epistemology = proj₂
 
-belief-joi-epistemology-is-belief : Belief → Epistemology → Knowledge
-belief-joi-epistemology-is-belief = {!!}
+belief-joi-epistemology-is-knowledge : Belief → Epistemology → Knowledge -- BxE -> K;
+belief-joi-epistemology-is-knowledge = {!!}
 
 conditionalBeliefLevel : Level
 conditionalBeliefLevel = {!!}
 ConditionalBelief : Set conditionalBeliefLevel
 ConditionalBelief = {!!}
 
-conditional-beliefs-are-beliefs : ConditionalBelief → Belief
+conditional-beliefs-are-beliefs : ConditionalBelief → Belief -- CB -> b
 conditional-beliefs-are-beliefs = {!!}
 
-list-to-conditional-belief : List Belief × Belief → ConditionalBelief
+conditionals-are-like-epistemologies : ConditionalBelief → Epistemology
+conditionals-are-like-epistemologies = {!!}
+
+list-to-conditional-belief : List Belief × Belief → ConditionalBelief  -- LBxB -> CB;
 list-to-conditional-belief = {!!}
 
 Supp : List Belief → ConditionalBelief → Set (conditionalBeliefLevel ⊔ beliefLevel)
@@ -42,13 +45,13 @@ Supp = {!!}
 SoundKnowledge : Set (beliefLevel ⊔ conditionalBeliefLevel)
 SoundKnowledge = Σ ConditionalBelief (λ c → Σ (List Belief) (λ l → Supp l c))
 
-sound-knowledge-is-knowledge : SoundKnowledge → Knowledge
+sound-knowledge-is-knowledge : SoundKnowledge → Knowledge -- SK -> K;
 sound-knowledge-is-knowledge = {!!}
 
 CorrectKnowledge : Set {!!}
 CorrectKnowledge = {!!}
 
-correct-knowledge-is-logically-sound : CorrectKnowledge → SoundKnowledge
+correct-knowledge-is-logically-sound : CorrectKnowledge → SoundKnowledge -- CK -> SK;
 correct-knowledge-is-logically-sound = {!!}
 
 quantLevel : Level
@@ -64,6 +67,12 @@ QuantifiedBelief = {!!}
 ConditionalBelief+ : Set (quantLevel ⊔ quantifiedBeliefLevel)
 ConditionalBelief+ = Σ Quant QuantifiedBelief
 
-quantified-conditional-beliefs-are-beliefs : ConditionalBelief+ → Belief
+quantified-conditional-beliefs-are-beliefs : ConditionalBelief+ → Belief -- CBP -> B;
 quantified-conditional-beliefs-are-beliefs = {!!}
+
+qualified-conditionals-are-like-epistemologies : ConditionalBelief+ → Epistemology -- CBP -> E;
+qualified-conditionals-are-like-epistemologies = {!!}
+
+conditionals-are-qualified-conditionals : ConditionalBelief → ConditionalBelief+ -- CB -> CBP;
+conditionals-are-qualified-conditionals = {!!}
 \end{code}
