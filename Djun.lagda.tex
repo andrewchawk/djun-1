@@ -1,0 +1,69 @@
+\begin{code}
+open import Data.Product using (Σ; _×_; proj₁; proj₂)
+open import Level using (Level; _⊔_)
+open import Data.List using (List)
+
+beliefLevel : Level
+beliefLevel = {!!}
+Belief : Set beliefLevel
+Belief = {!!}
+
+epistemologyLevel : Level
+epistemologyLevel = {!!}
+Epistemology : Set epistemologyLevel
+Epistemology = {!!}
+
+Knowledge : Set (beliefLevel ⊔ epistemologyLevel)
+Knowledge = Belief × Epistemology
+
+knowledge-is-belief : Knowledge → Belief
+knowledge-is-belief = proj₁
+
+knowledge-demands-an-epistemology : Knowledge → Epistemology
+knowledge-demands-an-epistemology = proj₂
+
+belief-joi-epistemology-is-belief : Belief → Epistemology → Knowledge
+belief-joi-epistemology-is-belief = {!!}
+
+conditionalBeliefLevel : Level
+conditionalBeliefLevel = {!!}
+ConditionalBelief : Set conditionalBeliefLevel
+ConditionalBelief = {!!}
+
+conditional-beliefs-are-beliefs : ConditionalBelief → Belief
+conditional-beliefs-are-beliefs = {!!}
+
+list-to-conditional-belief : List Belief × Belief → ConditionalBelief
+list-to-conditional-belief = {!!}
+
+Supp : List Belief → ConditionalBelief → Set (conditionalBeliefLevel ⊔ beliefLevel)
+Supp = {!!}
+
+SoundKnowledge : Set (beliefLevel ⊔ conditionalBeliefLevel)
+SoundKnowledge = Σ ConditionalBelief (λ c → Σ (List Belief) (λ l → Supp l c))
+
+sound-knowledge-is-knowledge : SoundKnowledge → Knowledge
+sound-knowledge-is-knowledge = {!!}
+
+CorrectKnowledge : Set {!!}
+CorrectKnowledge = {!!}
+
+correct-knowledge-is-logically-sound : SoundKnowledge → CorrectKnowledge
+correct-knowledge-is-logically-sound = {!!}
+
+quantLevel : Level
+quantLevel = {!!}
+Quant : Set quantLevel
+Quant = {!!}
+
+quantifiedBeliefLevel : Level
+quantifiedBeliefLevel = {!!}
+QuantifiedBelief : Quant → Set quantifiedBeliefLevel
+QuantifiedBelief = {!!}
+
+ConditionalBelief+ : Set (quantLevel ⊔ quantifiedBeliefLevel)
+ConditionalBelief+ = Σ Quant QuantifiedBelief
+
+quantified-conditional-beliefs-are-beliefs : ConditionalBelief+ → Belief
+quantified-conditional-beliefs-are-beliefs = {!!}
+\end{code}
