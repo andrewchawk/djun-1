@@ -1,78 +1,259 @@
+\documentclass{article}
+
+\usepackage{newunicodechar}
+\usepackage{geometry}[margin=1.25in]
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{parskip}
+% The coloring distracts the author.
+\usepackage[bw]{agda}
+\usepackage{unicode-math}
+\usepackage{physics}
+\usepackage{fancyref}
+\usepackage[toc]{glossaries}
+\usepackage[backend=bibtex]{biblatex}
+\usepackage{xcolor}
+\usepackage{hyperref}
+
+% What is a good place for this crap?
+\newunicodechar{⊤}{\ensuremath{\mathnormal{\top}}}
+\newunicodechar{⊥}{\ensuremath{\mathnormal{\bot}}}
+\newunicodechar{ℕ}{\ensuremath{\mathnormal{\mathbb{N}}}}
+\newunicodechar{₁}{\ensuremath{\mathnormal{_1}}}
+\newunicodechar{₂}{\ensuremath{\mathnormal{_2}}}
+\newunicodechar{≅}{\ensuremath{\mathnormal{\cong}}}
+\newunicodechar{ε}{\ensuremath{\mathnormal{\epsilon}}}
+\newunicodechar{τ}{\ensuremath{\mathnormal{\tau}}}
+\newunicodechar{λ}{\ensuremath{\mathnormal{\lambda}}}
+\newunicodechar{ℚ}{\ensuremath{\mathnormal{\mathbb{Q}}}}
+\newunicodechar{ℤ}{\ensuremath{\mathnormal{\mathbb{Z}}}}
+\newunicodechar{∷}{\ensuremath{\mathnormal{\Colon}}}
+\newunicodechar{⊎}{\ensuremath{\mathnormal{\uplus}}}
+\newunicodechar{≈}{\ensuremath{\mathnormal{\approx}}}
+\newunicodechar{≉}{\ensuremath{\mathnormal{\napprox}}}
+\newunicodechar{≡}{\ensuremath{\mathnormal{\equiv}}}
+\newunicodechar{≢}{\ensuremath{\mathnormal{\nequiv}}}
+\newunicodechar{≤}{\ensuremath{\mathnormal{\leq}}}
+\newunicodechar{⊔}{\ensuremath{\mathnormal{\sqcup}}}
+\newunicodechar{≟}{\ensuremath{\mathnormal{\stackrel{?}{=}}}}
+\newunicodechar{∘}{\ensuremath{\mathnormal{\circ}}}
+\newunicodechar{∧}{\ensuremath{\mathnormal{\land}}}
+\newunicodechar{∧}{\ensuremath{\mathnormal{\land}}}
+\newunicodechar{⇒}{\ensuremath{\mathnormal{\Rightarrow}}}
+\newunicodechar{⟨}{\ensuremath{\mathnormal{\langle}}}
+\newunicodechar{⟩}{\ensuremath{\mathnormal{\rangle}}}
+\newunicodechar{∎}{\ensuremath{\mathnormal{\blacksquare}}}
+\newunicodechar{∈}{\ensuremath{\mathnormal{\in}}}
+\newunicodechar{∉}{\ensuremath{\mathnormal{\notin}}}
+\newunicodechar{ᵇ}{\ensuremath{\mathnormal{^\AgdaFontStyle{b}}}}
+\newunicodechar{∣}{\ensuremath{\mathnormal{\lvert}}}
+\newunicodechar{↭}{\ensuremath{\mathnormal{\leftrightsquigarrow}}}
+
+\newcommand{\category}[1]{\mathsf{#1}}
+
+\title{A Brief Look at \(\category{Djun}\), the Knowledge-and-Such Category}
+\author{andrew christopher hawk}
+
+\makeglossaries{}
+
+\begin{document}
+\maketitle{}
+
+\begin{abstract}
+In this paper, the author uses type theory and category theory to discuss the nature of belief and knowledge.  A bit more specifically, the author describes \(\category{Djun}\), which is the knowledge category and has objects like a belief type and a knowledge type.
+\end{abstract}
+
+\section{Prerequisites for Total Understanding}
+
 \begin{code}
 open import Data.Product using (Σ; _×_; proj₁; proj₂)
 open import Level using (Level; _⊔_)
 open import Data.List using (List)
+open import Data.Maybe using (Maybe)
+\end{code}
 
+\section{Belief}
+
+\begin{code}
 beliefLevel : Level
 beliefLevel = {!!}
 Belief : Set beliefLevel
 Belief = {!!}
+\end{code}
 
+\section{Epistemology}
+
+\begin{code}
 epistemologyLevel : Level
 epistemologyLevel = {!!}
 Epistemology : Set epistemologyLevel
 Epistemology = {!!}
+\end{code}
 
+\section{Knowledge}
+
+\begin{code}
 Knowledge : Set (beliefLevel ⊔ epistemologyLevel)
 Knowledge = Belief × Epistemology
+\end{code}
 
+\begin{code}
 knowledge-is-belief : Knowledge → Belief -- K -> B;
 knowledge-is-belief = proj₁
+\end{code}
 
-knowledge-demands-an-epistemology : Knowledge → Epistemology -- K -> E;
+\begin{code}
+knowledge-demands-an-epistemology :
+  Knowledge → Epistemology -- K -> E;
 knowledge-demands-an-epistemology = proj₂
+\end{code}
 
-belief-joi-epistemology-is-knowledge : Belief → Epistemology → Knowledge -- BxE -> K;
+\begin{code}
+belief-joi-epistemology-is-knowledge :
+  Belief → Epistemology → Knowledge -- BxE -> K;
 belief-joi-epistemology-is-knowledge = {!!}
+\end{code}
 
+\section{Conditional Belief}
+
+\begin{code}
 conditionalBeliefLevel : Level
 conditionalBeliefLevel = {!!}
-ConditionalBelief : Set conditionalBeliefLevel
-ConditionalBelief = {!!}
+record ConditionalBelief : Set (beliefLevel ⊔ conditionalBeliefLevel) where
+  Condition : Set conditionalBeliefLevel
+  Condition = {!!}
+  field
+    belief : Belief
+    condition : Condition
+\end{code}
 
+\begin{code}
 conditional-beliefs-are-beliefs : ConditionalBelief → Belief -- CB -> b
-conditional-beliefs-are-beliefs = {!!}
+conditional-beliefs-are-beliefs = ConditionalBelief.belief
+\end{code}
 
-conditionals-are-like-epistemologies : ConditionalBelief → Epistemology
+\begin{code}
+conditionals-are-like-epistemologies :
+  ConditionalBelief → Epistemology
 conditionals-are-like-epistemologies = {!!}
+\end{code}
 
-list-to-conditional-belief : List Belief × Belief → ConditionalBelief  -- LBxB -> CB;
+\begin{code}
+list-to-conditional-belief :
+  List Belief × Belief → ConditionalBelief  -- LBxB -> CB;
 list-to-conditional-belief = {!!}
+\end{code}
 
-Supp : List Belief → ConditionalBelief → Set (conditionalBeliefLevel ⊔ beliefLevel)
+\begin{code}
+all-belief-can-be-conditional : Belief → ConditionalBelief
+all-belief-can-be-conditional = {!!}
+\end{code}
+
+\section{The Epistemological Support Type}
+
+\begin{code}
+Supp : Epistemology → Belief → Set (epistemologyLevel ⊔ beliefLevel)
 Supp = {!!}
+\end{code}
 
-SoundKnowledge : Set (beliefLevel ⊔ conditionalBeliefLevel)
-SoundKnowledge = Σ ConditionalBelief (λ c → Σ (List Belief) (λ l → Supp l c))
+\section{Sound Knowledge}
 
+\begin{code}
+SoundKnowledge : Set (epistemologyLevel ⊔ beliefLevel)
+SoundKnowledge = Σ Knowledge (λ k → Σ Epistemology (λ e → Supp e (proj₁ k)))
+\end{code}
+
+\begin{code}
 sound-knowledge-is-knowledge : SoundKnowledge → Knowledge -- SK -> K;
 sound-knowledge-is-knowledge = {!!}
+\end{code}
 
-CorrectKnowledge : Set {!!}
-CorrectKnowledge = {!!}
+\section{Correct Knowledge}
 
-correct-knowledge-is-logically-sound : CorrectKnowledge → SoundKnowledge -- CK -> SK;
+\begin{code}
+correctKnowledgeLevel : Level
+correctKnowledgeLevel = {!!}
+record CorrectKnowledge : Set ( epistemologyLevel
+                              ⊔ beliefLevel
+                              ⊔ correctKnowledgeLevel
+                              ) where
+  Correct : Knowledge → Set correctKnowledgeLevel
+  Correct = {!!}
+  field
+    sound-knowledge : SoundKnowledge
+    said-knowledge-is-correct :
+      Correct (sound-knowledge-is-knowledge sound-knowledge)
+\end{code}
+
+\begin{code}
+correct-knowledge-is-logically-sound :
+  CorrectKnowledge → SoundKnowledge -- CK -> SK;
 correct-knowledge-is-logically-sound = {!!}
+\end{code}
 
+\section{Quantified Belief}
+
+\begin{code}
 quantLevel : Level
 quantLevel = {!!}
 Quant : Set quantLevel
 Quant = {!!}
+\end{code}
 
+\begin{code}
+nullQuantification : Quant
+nullQuantification = {!!}
+\end{code}
+
+\begin{code}
 quantifiedBeliefLevel : Level
 quantifiedBeliefLevel = {!!}
 QuantifiedBelief : Quant → Set quantifiedBeliefLevel
 QuantifiedBelief = {!!}
-
-ConditionalBelief+ : Set (quantLevel ⊔ quantifiedBeliefLevel)
-ConditionalBelief+ = Σ Quant QuantifiedBelief
-
-quantified-conditional-beliefs-are-beliefs : ConditionalBelief+ → Belief -- CBP -> B;
-quantified-conditional-beliefs-are-beliefs = {!!}
-
-qualified-conditionals-are-like-epistemologies : ConditionalBelief+ → Epistemology -- CBP -> E;
-qualified-conditionals-are-like-epistemologies = {!!}
-
-conditionals-are-qualified-conditionals : ConditionalBelief → ConditionalBelief+ -- CB -> CBP;
-conditionals-are-qualified-conditionals = {!!}
 \end{code}
+
+\begin{code}
+nully-quantified-beliefs-are-just-beliefs :
+  QuantifiedBelief nullQuantification → Belief -- QB0 -> B
+nully-quantified-beliefs-are-just-beliefs = {!!}
+\end{code}
+
+\begin{code}
+but-are-still-quantified :
+  QuantifiedBelief nullQuantification →
+  Σ Quant QuantifiedBelief -- QB0 -> QB
+but-are-still-quantified = {!!}
+\end{code}
+
+\section{Conditional Quantified Belief}
+
+\begin{code}
+ConditionalBelief+ : Set (quantLevel ⊔ quantifiedBeliefLevel)
+ConditionalBelief+ = Σ Quant (λ q → List (QuantifiedBelief q)
+                                  × QuantifiedBelief q)
+\end{code}
+
+\begin{code}
+quantified-conditional-beliefs-are-beliefs :
+  ConditionalBelief+ → Belief -- CBP -> B;
+quantified-conditional-beliefs-are-beliefs = {!!}
+\end{code}
+
+\begin{code}
+quantified-conditionals-are-like-epistemologies :
+  ConditionalBelief+ → Epistemology -- CBP -> E;
+quantified-conditionals-are-like-epistemologies = {!!}
+\end{code}
+
+\begin{code}
+beliefs-are-quantified-beliefs :
+  Belief → Σ Quant QuantifiedBelief -- B -> QB;
+beliefs-are-quantified-beliefs = {!!}
+\end{code}
+
+\begin{code}
+conditionals-are-quantified-conditionals :
+  ConditionalBelief → ConditionalBelief+ -- CB -> CBP;
+conditionals-are-quantified-conditionals = {!!}
+\end{code}
+\end{document}
