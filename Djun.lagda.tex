@@ -14,6 +14,8 @@
 \usepackage[backend=bibtex]{biblatex}
 \usepackage{xcolor}
 \usepackage{hyperref}
+\usepackage{quiver}
+\usepackage{adjustbox}
 
 % What is a good place for this crap?
 \newunicodechar{⊤}{\ensuremath{\mathnormal{\top}}}
@@ -62,6 +64,35 @@
 \begin{abstract}
 In this paper, the author uses type theory and category theory to discuss the nature of belief and knowledge.  A bit more specifically, the author describes \(\category{Djun}\), which is the knowledge category and has objects like a belief type and a knowledge type.
 \end{abstract}
+
+\section{Background}
+On 2024-11-24, whilst sitting in a Meeting for Worship, the author reasoned out of an urge to say something.  After such reasoning, the author felt an urge to draw a commutative diagram on the category whose objects include belief, knowledge, and epistemology --- yes, really.\footnote{Determining whether the urge is the action of the divine or schizophrenia is an exercise for the reader.}  Accordingly, the author drew a cheesy and error-filled commutative diagram\footnote{See \fref{fig:originalDiagram}.} on a piece of paper; this paper is effectively a cleaned-up version of that commutative diagram.
+
+\begin{figure}
+  \adjustbox{scale=0.75, center}{
+    \begin{tikzcd}
+      &&&& {\sum_{\left(c : \mathrm{CondB}\right)} \sum_{\left(l : \mathrm{List} B\right)} \left(\mathrm{Supp}\ l\ c\right)} & {\sum_{\left(q : \mathrm{Quant}\right)} \left(\mathrm{List} \left(\mathrm{QB}\ q\right) \times \mathrm{QB}\ q\right)} \\
+      &&&& {\mathrm{List}\ B \times B} \\
+      & SK & K & {B \times E} & {\mathrm{CondB}} & {\mathrm{CondB+}} \\
+      CK \\
+      && B & E
+      \arrow[curve={height=6pt}, from=1-5, to=3-2]
+      \arrow[from=1-6, to=3-6]
+      \arrow[from=2-5, to=3-5]
+      \arrow[curve={height=6pt}, from=3-2, to=1-5]
+      \arrow[from=3-2, to=3-3]
+      \arrow[curve={height=6pt}, from=3-3, to=3-4]
+      \arrow[curve={height=6pt}, from=3-4, to=3-3]
+      \arrow[from=3-4, to=5-3]
+      \arrow[from=3-4, to=5-4]
+      \arrow[from=3-5, to=5-3]
+      \arrow[from=3-5, to=5-4]
+      \arrow[from=3-6, to=5-3]
+      \arrow[from=4-1, to=3-2]
+      \arrow["{?}"{description}, dashed, from=5-4, to=5-3]
+    \end{tikzcd}}
+  \caption{A digital version of the commutative diagram which inspired this paper.  The author is aware of the jackedness of the typesetting.}\label{fig:originalDiagram}
+\end{figure}
 
 \section{Prerequisites for Total Understanding}
 
