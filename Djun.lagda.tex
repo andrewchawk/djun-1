@@ -282,9 +282,11 @@ but-are-still-quantified = {!!}
 \section{Conditional Quantified Belief}
 
 \begin{code}
-ConditionalBelief+ : (b q : Level) → Set (Level.suc (b ⊔ q))
-ConditionalBelief+ b q = Σ (Quant q) (λ qt → List (QuantifiedBelief b qt)
-                                           × QuantifiedBelief b qt)
+record ConditionalBelief+ (b q : Level) : Set (Level.suc (b ⊔ q)) where
+  field
+    quantification : Quant q
+    belief : QuantifiedBelief b quantification
+    condition : List (QuantifiedBelief b quantification)
 \end{code}
 
 \begin{code}
