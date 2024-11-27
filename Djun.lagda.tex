@@ -97,7 +97,7 @@ On 2024-11-24, whilst sitting in a Meeting for Worship, the author reasoned out 
 \section{Prerequisites for Total Understanding}
 
 \begin{code}
-open import Data.Product using (Σ; _×_; proj₁; proj₂)
+open import Data.Product using (Σ; _×_; proj₁; proj₂; _,_)
 open import Level using (Level; _⊔_)
 open import Data.List using (List)
 open import Data.Maybe using (Maybe)
@@ -142,7 +142,7 @@ knowledge-demands-an-epistemology = proj₂
 \begin{code}
 belief-joi-epistemology-is-knowledge :
   {b : Level} → Belief b → Epistemology → Knowledge b -- BxE -> K;
-belief-joi-epistemology-is-knowledge = {!!}
+belief-joi-epistemology-is-knowledge b e = b , e
 \end{code}
 
 \section{Conditional Belief}
