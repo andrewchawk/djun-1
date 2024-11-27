@@ -211,9 +211,8 @@ record CorrectKnowledge : Set ( epistemologyLevel
   Correct : Knowledge → Set correctKnowledgeLevel
   Correct = {!!}
   field
-    sound-knowledge : SoundKnowledge
-    said-knowledge-is-correct :
-      Correct (sound-knowledge-is-knowledge sound-knowledge)
+    knowledge : Knowledge
+    said-knowledge-is-correct : Correct knowledge
 \end{code}
 
 \begin{code}
