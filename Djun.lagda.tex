@@ -101,6 +101,7 @@ open import Data.Product using (Σ; _×_; proj₁; proj₂; _,_)
 open import Level using (Level; _⊔_)
 open import Data.List using (List)
 open import Data.Maybe using (Maybe)
+open import Data.Unit.Polymorphic using (⊤ ; tt)
 \end{code}
 
 \section{Belief}
@@ -148,23 +149,21 @@ belief-joi-epistemology-is-knowledge b e = b , e
 \subsection{Condition}
 
 \begin{code}
-conditionLevel : Level
-conditionLevel = {!!}
-Condition : Set conditionLevel
-Condition = {!!}
+Condition : (a : Level) → Set (Level.suc a)
+Condition a = Set a
 
-nullCondition : Condition
-nullCondition = {!!}
+nullCondition : {c : Level} → Condition c
+nullCondition = ⊤
 \end{code}
 
 \subsection{Conditional Belief}
 A bit formally, a term \AgdaBound{c} of type \AgdaRecord{ConditionalBelief} is equivalent to the belief which can be characterized as follows: If there exists a term of type \AgdaField{ConditionalBelief.condition} \AgdaBound{c}, then \AgdaField{ConditionalBelief.belief} \AgdaBound{c} is correct.
 
 \begin{code}
-record ConditionalBelief (b : Level) : Set (Level.suc b ⊔ conditionLevel) where
+record ConditionalBelief (b c : Level) : Set (Level.suc (b ⊔ c)) where
   field
     belief : Belief b
-    condition : Condition
+    condition : Condition c
 \end{code}
 
 \subsubsection{Possible Confusion}
@@ -178,26 +177,26 @@ Regardless of reasonability, whilst not believing that \(B\) holds, simultaneous
 
 \begin{code}
 conditional-beliefs-are-beliefs :
-  {b : Level} → ConditionalBelief b → Belief b -- CB -> b
+  {b c : Level} → ConditionalBelief b c → Belief b -- CB -> b
 conditional-beliefs-are-beliefs = ConditionalBelief.belief
 \end{code}
 
 \begin{code}
 conditionals-are-like-epistemologies :
-  {b : Level} → ConditionalBelief b → Epistemology b
+  {b c : Level} → ConditionalBelief b c → Epistemology b
 conditionals-are-like-epistemologies = {!!}
 \end{code}
 
 \begin{code}
 list-to-conditional-belief :
-  {b : Level} →
-  List (Belief b) × Belief b →
-  ConditionalBelief b -- LBxB -> CB;
+  {b c : Level} →
+  List (Belief c) × Belief b →
+  ConditionalBelief b c -- LBxB -> CB;
 list-to-conditional-belief = {!!}
 \end{code}
 
 \begin{code}
-all-belief-can-be-conditional : {b : Level} → Belief b → ConditionalBelief b
+all-belief-can-be-conditional : {b c : Level} → Belief b → ConditionalBelief b c
 all-belief-can-be-conditional b = record
   { belief = b
   ; condition = nullCondition
@@ -252,67 +251,63 @@ correct-knowledge-is-logically-sound = {!!}
 \section{Quantified Belief}
 
 \begin{code}
-quantLevel : Level
-quantLevel = {!!}
-Quant : Set quantLevel
+Quant : (a : Level) → Set a
 Quant = {!!}
 \end{code}
 
 \begin{code}
-nullQuantification : Quant
+nullQuantification : {q : Level} → Quant q
 nullQuantification = {!!}
 \end{code}
 
 \begin{code}
-quantifiedBeliefLevel : Level
-quantifiedBeliefLevel = {!!}
-QuantifiedBelief : (b : Level) → Quant → Set (b ⊔ quantLevel ⊔ quantifiedBeliefLevel)
+QuantifiedBelief : (b : Level) → {q : Level} → Quant q → Set (Level.suc (b ⊔ q))
 QuantifiedBelief = {!!}
 \end{code}
 
 \begin{code}
 nully-quantified-beliefs-are-just-beliefs :
-  {b : Level} → QuantifiedBelief b nullQuantification → Belief b -- QB0 -> B
+  {b c q : Level} → QuantifiedBelief b {q} nullQuantification → Belief b -- QB0 -> B
 nully-quantified-beliefs-are-just-beliefs = {!!}
 \end{code}
 
 \begin{code}
 but-are-still-quantified :
-  {b : Level} →
-  QuantifiedBelief b nullQuantification →
-  Σ Quant (QuantifiedBelief b) -- QB0 -> QB
+  {b c q : Level} →
+  QuantifiedBelief b {q} nullQuantification →
+  Σ (Quant q) (QuantifiedBelief b {q}) -- QB0 -> QB
 but-are-still-quantified = {!!}
 \end{code}
 
 \section{Conditional Quantified Belief}
 
 \begin{code}
-ConditionalBelief+ : (b : Level) → Set (b ⊔ quantLevel ⊔ quantifiedBeliefLevel)
-ConditionalBelief+ b = Σ Quant (λ q → List (QuantifiedBelief b q)
-                                    × QuantifiedBelief b q)
+ConditionalBelief+ : (b q : Level) → Set (Level.suc (b ⊔ q))
+ConditionalBelief+ b q = Σ (Quant q) (λ qt → List (QuantifiedBelief b qt)
+                                           × QuantifiedBelief b qt)
 \end{code}
 
 \begin{code}
 quantified-conditional-beliefs-are-beliefs :
-  {b : Level} → ConditionalBelief+ b → Belief b -- CBP -> B;
+  {b q : Level} → ConditionalBelief+ b q → Belief b -- CBP -> B;
 quantified-conditional-beliefs-are-beliefs = {!!}
 \end{code}
 
 \begin{code}
 quantified-conditionals-are-like-epistemologies :
-  {b : Level} → ConditionalBelief+ b → Epistemology b -- CBP -> E;
+  {b q : Level} → ConditionalBelief+ b q → Epistemology b -- CBP -> E;
 quantified-conditionals-are-like-epistemologies = {!!}
 \end{code}
 
 \begin{code}
 beliefs-are-quantified-beliefs :
-  {b : Level} → Belief b → Σ Quant (QuantifiedBelief b) -- B -> QB;
+  {b q : Level} → Belief b → Σ (Quant q) (QuantifiedBelief b {q}) -- B -> QB;
 beliefs-are-quantified-beliefs = {!!}
 \end{code}
 
 \begin{code}
 conditionals-are-quantified-conditionals :
-  {b : Level} → ConditionalBelief b → ConditionalBelief+ b -- CB -> CBP;
+  {b c q : Level} → ConditionalBelief b c → ConditionalBelief+ b q -- CB -> CBP;
 conditionals-are-quantified-conditionals = {!!}
 \end{code}
 \end{document}
