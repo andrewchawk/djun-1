@@ -177,7 +177,8 @@ Regardless of reasonability, whilst not believing that \(B\) holds, simultaneous
 \end{itemize}
 
 \begin{code}
-conditional-beliefs-are-beliefs : {b : Level} → ConditionalBelief b → Belief b -- CB -> b
+conditional-beliefs-are-beliefs :
+  {b : Level} → ConditionalBelief b → Belief b -- CB -> b
 conditional-beliefs-are-beliefs = ConditionalBelief.belief
 \end{code}
 
@@ -189,13 +190,18 @@ conditionals-are-like-epistemologies = {!!}
 
 \begin{code}
 list-to-conditional-belief :
-  {b : Level} → List (Belief b) × Belief b → ConditionalBelief b -- LBxB -> CB;
+  {b : Level} →
+  List (Belief b) × Belief b →
+  ConditionalBelief b -- LBxB -> CB;
 list-to-conditional-belief = {!!}
 \end{code}
 
 \begin{code}
 all-belief-can-be-conditional : {b : Level} → Belief b → ConditionalBelief b
-all-belief-can-be-conditional b = record {belief = b; condition = nullCondition}
+all-belief-can-be-conditional b = record
+  { belief = b
+  ; condition = nullCondition
+  }
 \end{code}
 
 \section{The Epistemological Support Type}
@@ -210,11 +216,13 @@ Supp = {!!}
 \begin{code}
 SoundKnowledge : (b e : Level) → Set (Level.suc e ⊔ Level.suc b)
 SoundKnowledge b e =
-  Σ (Knowledge b e) (λ k → Σ (Epistemology e) (λ e → Supp e (proj₁ k)))
+  Σ (Knowledge b e × Epistemology e)
+    (λ (k , e) → Supp e (proj₁ k))
 \end{code}
 
 \begin{code}
-sound-knowledge-is-knowledge : {b e : Level} → SoundKnowledge b e → Knowledge b e -- SK -> K;
+sound-knowledge-is-knowledge :
+  {b e : Level} → SoundKnowledge b e → Knowledge b e -- SK -> K;
 sound-knowledge-is-knowledge = {!!}
 \end{code}
 
