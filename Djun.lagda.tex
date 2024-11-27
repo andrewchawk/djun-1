@@ -115,37 +115,37 @@ record Belief (a : Level) : Set (Level.suc a) where
 \section{Epistemology}
 
 \begin{code}
-epistemologyLevel : Level
-epistemologyLevel = {!!}
-Epistemology : Set epistemologyLevel
+Epistemology : (e : Level) → Set (Level.suc e)
 Epistemology = {!!}
 \end{code}
 
 \section{Knowledge}
 
 \begin{code}
-Knowledge : (a : Level) → Set (Level.suc a ⊔ epistemologyLevel)
-Knowledge a = Belief a × Epistemology
+Knowledge : (b e : Level) → Set (Level.suc (b ⊔ e))
+Knowledge b e = Belief b × Epistemology e
 \end{code}
 
 \begin{code}
-knowledge-is-belief : {b : Level} → Knowledge b → Belief b -- K -> B;
+knowledge-is-belief : {b e : Level} → Knowledge b e → Belief b -- K -> B;
 knowledge-is-belief = proj₁
 \end{code}
 
 \begin{code}
 knowledge-demands-an-epistemology :
-  {b : Level} → Knowledge b → Epistemology -- K -> E;
+  {b e : Level} → Knowledge b e → Epistemology e -- K -> E;
 knowledge-demands-an-epistemology = proj₂
 \end{code}
 
 \begin{code}
 belief-joi-epistemology-is-knowledge :
-  {b : Level} → Belief b → Epistemology → Knowledge b -- BxE -> K;
+  {b e : Level} → Belief b → Epistemology e → Knowledge b e -- BxE -> K;
 belief-joi-epistemology-is-knowledge b e = b , e
 \end{code}
 
 \section{Conditional Belief}
+
+\subsection{Condition}
 
 \begin{code}
 conditionLevel : Level
@@ -155,12 +155,26 @@ Condition = {!!}
 
 nullCondition : Condition
 nullCondition = {!!}
+\end{code}
 
+\subsection{Conditional Belief}
+A bit formally, a term \AgdaBound{c} of type \AgdaRecord{ConditionalBelief} is equivalent to the belief which can be characterized as follows: If there exists a term of type \AgdaField{ConditionalBelief.condition} \AgdaBound{c}, then \AgdaField{ConditionalBelief.belief} \AgdaBound{c} is correct.
+
+\begin{code}
 record ConditionalBelief (b : Level) : Set (Level.suc b ⊔ conditionLevel) where
   field
     belief : Belief b
     condition : Condition
 \end{code}
+
+\subsubsection{Possible Confusion}
+\paragraph{``But You Have the Conditional Belief!''}
+Regardless of reasonability, whilst not believing that \(B\) holds, simultaneously believing that \(A\) holds \emph{and} that if \(A\) holds, then \(B\) holds is possible.  A bit more formally --- and possibly more coherently ---, one can say that there exists some belief-haver \(x\) such that \(x\) does not believe that \(B\) holds but \emph{does} believe the following things:
+
+\begin{itemize}
+  \item If \(A\) holds, then \(B\) holds.
+  \item \(A\) holds.
+\end{itemize}
 
 \begin{code}
 conditional-beliefs-are-beliefs : {b : Level} → ConditionalBelief b → Belief b -- CB -> b
@@ -169,7 +183,7 @@ conditional-beliefs-are-beliefs = ConditionalBelief.belief
 
 \begin{code}
 conditionals-are-like-epistemologies :
-  {b : Level} → ConditionalBelief b → Epistemology
+  {b : Level} → ConditionalBelief b → Epistemology b
 conditionals-are-like-epistemologies = {!!}
 \end{code}
 
@@ -187,19 +201,20 @@ all-belief-can-be-conditional b = record {belief = b; condition = nullCondition}
 \section{The Epistemological Support Type}
 
 \begin{code}
-Supp : {b : Level} → Epistemology → Belief b → Set (b ⊔ epistemologyLevel)
+Supp : {b e : Level} → Epistemology e → Belief b → Set (b ⊔ e)
 Supp = {!!}
 \end{code}
 
 \section{Sound Knowledge}
 
 \begin{code}
-SoundKnowledge : (b : Level) → Set (epistemologyLevel ⊔ Level.suc b)
-SoundKnowledge b = Σ (Knowledge b) (λ k → Σ Epistemology (λ e → Supp e (proj₁ k)))
+SoundKnowledge : (b e : Level) → Set (Level.suc e ⊔ Level.suc b)
+SoundKnowledge b e =
+  Σ (Knowledge b e) (λ k → Σ (Epistemology e) (λ e → Supp e (proj₁ k)))
 \end{code}
 
 \begin{code}
-sound-knowledge-is-knowledge : {b : Level} → SoundKnowledge b → Knowledge b -- SK -> K;
+sound-knowledge-is-knowledge : {b e : Level} → SoundKnowledge b e → Knowledge b e -- SK -> K;
 sound-knowledge-is-knowledge = {!!}
 \end{code}
 
@@ -208,21 +223,21 @@ sound-knowledge-is-knowledge = {!!}
 \begin{code}
 correctKnowledgeLevel : Level
 correctKnowledgeLevel = {!!}
-record CorrectKnowledge (b : Level) :
-                        Set ( epistemologyLevel
-                             ⊔ Level.suc b
-                             ⊔ correctKnowledgeLevel
-                             ) where
-  Correct : {b : Level} → Knowledge b → Set correctKnowledgeLevel
+record CorrectKnowledge (b e : Level) :
+                        Set ( Level.suc e
+                            ⊔ Level.suc b
+                            ⊔ correctKnowledgeLevel
+                            ) where
+  Correct : {b e : Level} → Knowledge b e → Set correctKnowledgeLevel
   Correct = {!!}
   field
-    knowledge : Knowledge b
+    knowledge : Knowledge b e
     said-knowledge-is-correct : Correct knowledge
 \end{code}
 
 \begin{code}
 correct-knowledge-is-logically-sound :
-  {b : Level} → CorrectKnowledge b → SoundKnowledge b -- CK -> SK;
+  {b e : Level} → CorrectKnowledge b e → SoundKnowledge b e -- CK -> SK;
 correct-knowledge-is-logically-sound = {!!}
 \end{code}
 
@@ -277,7 +292,7 @@ quantified-conditional-beliefs-are-beliefs = {!!}
 
 \begin{code}
 quantified-conditionals-are-like-epistemologies :
-  {b : Level} → ConditionalBelief+ b → Epistemology -- CBP -> E;
+  {b : Level} → ConditionalBelief+ b → Epistemology b -- CBP -> E;
 quantified-conditionals-are-like-epistemologies = {!!}
 \end{code}
 
