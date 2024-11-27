@@ -104,12 +104,12 @@ open import Data.Maybe using (Maybe)
 \end{code}
 
 \section{Belief}
+Formally, a term \AgdaBound{t} of type \AgdaRecord{Belief} \AgdaBound{b} is a belief in the existence of a term of type \AgdaField{Belief.belief} \AgdaBound{t}.  Prosaically defining the English term ``belief'' is for now beyond the scope of this paper, but the author hopes that, given the descriptions of the other objects, understanding \AgdaRecord{Belief} will be reasonably simple.
 
 \begin{code}
-beliefLevel : Level
-beliefLevel = {!!}
-Belief : Set beliefLevel
-Belief = {!!}
+record Belief (a : Level) : Set (Level.suc a) where
+  field
+    belief : Set a
 \end{code}
 
 \section{Epistemology}
@@ -124,24 +124,24 @@ Epistemology = {!!}
 \section{Knowledge}
 
 \begin{code}
-Knowledge : Set (beliefLevel ⊔ epistemologyLevel)
-Knowledge = Belief × Epistemology
+Knowledge : (a : Level) → Set (Level.suc a ⊔ epistemologyLevel)
+Knowledge a = Belief a × Epistemology
 \end{code}
 
 \begin{code}
-knowledge-is-belief : Knowledge → Belief -- K -> B;
+knowledge-is-belief : {b : Level} → Knowledge b → Belief b -- K -> B;
 knowledge-is-belief = proj₁
 \end{code}
 
 \begin{code}
 knowledge-demands-an-epistemology :
-  Knowledge → Epistemology -- K -> E;
+  {b : Level} → Knowledge b → Epistemology -- K -> E;
 knowledge-demands-an-epistemology = proj₂
 \end{code}
 
 \begin{code}
 belief-joi-epistemology-is-knowledge :
-  Belief → Epistemology → Knowledge -- BxE -> K;
+  {b : Level} → Belief b → Epistemology → Knowledge b -- BxE -> K;
 belief-joi-epistemology-is-knowledge = {!!}
 \end{code}
 
@@ -156,50 +156,50 @@ Condition = {!!}
 nullCondition : Condition
 nullCondition = {!!}
 
-record ConditionalBelief : Set (beliefLevel ⊔ conditionLevel) where
+record ConditionalBelief (b : Level) : Set (Level.suc b ⊔ conditionLevel) where
   field
-    belief : Belief
+    belief : Belief b
     condition : Condition
 \end{code}
 
 \begin{code}
-conditional-beliefs-are-beliefs : ConditionalBelief → Belief -- CB -> b
+conditional-beliefs-are-beliefs : {b : Level} → ConditionalBelief b → Belief b -- CB -> b
 conditional-beliefs-are-beliefs = ConditionalBelief.belief
 \end{code}
 
 \begin{code}
 conditionals-are-like-epistemologies :
-  ConditionalBelief → Epistemology
+  {b : Level} → ConditionalBelief b → Epistemology
 conditionals-are-like-epistemologies = {!!}
 \end{code}
 
 \begin{code}
 list-to-conditional-belief :
-  List Belief × Belief → ConditionalBelief  -- LBxB -> CB;
+  {b : Level} → List (Belief b) × Belief b → ConditionalBelief b -- LBxB -> CB;
 list-to-conditional-belief = {!!}
 \end{code}
 
 \begin{code}
-all-belief-can-be-conditional : Belief → ConditionalBelief
+all-belief-can-be-conditional : {b : Level} → Belief b → ConditionalBelief b
 all-belief-can-be-conditional b = record {belief = b; condition = nullCondition}
 \end{code}
 
 \section{The Epistemological Support Type}
 
 \begin{code}
-Supp : Epistemology → Belief → Set (epistemologyLevel ⊔ beliefLevel)
+Supp : {b : Level} → Epistemology → Belief b → Set (b ⊔ epistemologyLevel)
 Supp = {!!}
 \end{code}
 
 \section{Sound Knowledge}
 
 \begin{code}
-SoundKnowledge : Set (epistemologyLevel ⊔ beliefLevel)
-SoundKnowledge = Σ Knowledge (λ k → Σ Epistemology (λ e → Supp e (proj₁ k)))
+SoundKnowledge : (b : Level) → Set (epistemologyLevel ⊔ Level.suc b)
+SoundKnowledge b = Σ (Knowledge b) (λ k → Σ Epistemology (λ e → Supp e (proj₁ k)))
 \end{code}
 
 \begin{code}
-sound-knowledge-is-knowledge : SoundKnowledge → Knowledge -- SK -> K;
+sound-knowledge-is-knowledge : {b : Level} → SoundKnowledge b → Knowledge b -- SK -> K;
 sound-knowledge-is-knowledge = {!!}
 \end{code}
 
@@ -208,20 +208,21 @@ sound-knowledge-is-knowledge = {!!}
 \begin{code}
 correctKnowledgeLevel : Level
 correctKnowledgeLevel = {!!}
-record CorrectKnowledge : Set ( epistemologyLevel
-                              ⊔ beliefLevel
-                              ⊔ correctKnowledgeLevel
-                              ) where
-  Correct : Knowledge → Set correctKnowledgeLevel
+record CorrectKnowledge (b : Level) :
+                        Set ( epistemologyLevel
+                             ⊔ Level.suc b
+                             ⊔ correctKnowledgeLevel
+                             ) where
+  Correct : {b : Level} → Knowledge b → Set correctKnowledgeLevel
   Correct = {!!}
   field
-    knowledge : Knowledge
+    knowledge : Knowledge b
     said-knowledge-is-correct : Correct knowledge
 \end{code}
 
 \begin{code}
 correct-knowledge-is-logically-sound :
-  CorrectKnowledge → SoundKnowledge -- CK -> SK;
+  {b : Level} → CorrectKnowledge b → SoundKnowledge b -- CK -> SK;
 correct-knowledge-is-logically-sound = {!!}
 \end{code}
 
@@ -242,52 +243,53 @@ nullQuantification = {!!}
 \begin{code}
 quantifiedBeliefLevel : Level
 quantifiedBeliefLevel = {!!}
-QuantifiedBelief : Quant → Set quantifiedBeliefLevel
+QuantifiedBelief : (b : Level) → Quant → Set (b ⊔ quantLevel ⊔ quantifiedBeliefLevel)
 QuantifiedBelief = {!!}
 \end{code}
 
 \begin{code}
 nully-quantified-beliefs-are-just-beliefs :
-  QuantifiedBelief nullQuantification → Belief -- QB0 -> B
+  {b : Level} → QuantifiedBelief b nullQuantification → Belief b -- QB0 -> B
 nully-quantified-beliefs-are-just-beliefs = {!!}
 \end{code}
 
 \begin{code}
 but-are-still-quantified :
-  QuantifiedBelief nullQuantification →
-  Σ Quant QuantifiedBelief -- QB0 -> QB
+  {b : Level} →
+  QuantifiedBelief b nullQuantification →
+  Σ Quant (QuantifiedBelief b) -- QB0 -> QB
 but-are-still-quantified = {!!}
 \end{code}
 
 \section{Conditional Quantified Belief}
 
 \begin{code}
-ConditionalBelief+ : Set (quantLevel ⊔ quantifiedBeliefLevel)
-ConditionalBelief+ = Σ Quant (λ q → List (QuantifiedBelief q)
-                                  × QuantifiedBelief q)
+ConditionalBelief+ : (b : Level) → Set (b ⊔ quantLevel ⊔ quantifiedBeliefLevel)
+ConditionalBelief+ b = Σ Quant (λ q → List (QuantifiedBelief b q)
+                                    × QuantifiedBelief b q)
 \end{code}
 
 \begin{code}
 quantified-conditional-beliefs-are-beliefs :
-  ConditionalBelief+ → Belief -- CBP -> B;
+  {b : Level} → ConditionalBelief+ b → Belief b -- CBP -> B;
 quantified-conditional-beliefs-are-beliefs = {!!}
 \end{code}
 
 \begin{code}
 quantified-conditionals-are-like-epistemologies :
-  ConditionalBelief+ → Epistemology -- CBP -> E;
+  {b : Level} → ConditionalBelief+ b → Epistemology -- CBP -> E;
 quantified-conditionals-are-like-epistemologies = {!!}
 \end{code}
 
 \begin{code}
 beliefs-are-quantified-beliefs :
-  Belief → Σ Quant QuantifiedBelief -- B -> QB;
+  {b : Level} → Belief b → Σ Quant (QuantifiedBelief b) -- B -> QB;
 beliefs-are-quantified-beliefs = {!!}
 \end{code}
 
 \begin{code}
 conditionals-are-quantified-conditionals :
-  ConditionalBelief → ConditionalBelief+ -- CB -> CBP;
+  {b : Level} → ConditionalBelief b → ConditionalBelief+ b -- CB -> CBP;
 conditionals-are-quantified-conditionals = {!!}
 \end{code}
 \end{document}
