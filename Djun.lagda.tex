@@ -148,11 +148,15 @@ belief-joi-epistemology-is-knowledge = {!!}
 \section{Conditional Belief}
 
 \begin{code}
-conditionalBeliefLevel : Level
-conditionalBeliefLevel = {!!}
-record ConditionalBelief : Set (beliefLevel ⊔ conditionalBeliefLevel) where
-  Condition : Set conditionalBeliefLevel
-  Condition = {!!}
+conditionLevel : Level
+conditionLevel = {!!}
+Condition : Set conditionLevel
+Condition = {!!}
+
+nullCondition : Condition
+nullCondition = {!!}
+
+record ConditionalBelief : Set (beliefLevel ⊔ conditionLevel) where
   field
     belief : Belief
     condition : Condition
@@ -177,7 +181,7 @@ list-to-conditional-belief = {!!}
 
 \begin{code}
 all-belief-can-be-conditional : Belief → ConditionalBelief
-all-belief-can-be-conditional = {!!}
+all-belief-can-be-conditional b = record {belief = b; condition = nullCondition}
 \end{code}
 
 \section{The Epistemological Support Type}
