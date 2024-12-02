@@ -252,6 +252,8 @@ correct-knowledge-is-logically-sound = {!!}
 
 \section{Quantified Belief}
 
+\subsection{Quantification}
+
 \begin{code}
 Quant : (a : Level) → Set a
 Quant = {!!}
@@ -261,6 +263,8 @@ Quant = {!!}
 nullQuantification : {q : Level} → Quant q
 nullQuantification = {!!}
 \end{code}
+
+\subsection{Quantified Belief}
 
 \begin{code}
 QuantifiedBelief : (b : Level) → {q : Level} → Quant q → Set (Level.suc (b ⊔ q))
