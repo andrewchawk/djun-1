@@ -1,0 +1,15 @@
+cff-version: 1.2.0
+title: 'A Brief Look at Djun, the Knowledge-and-Such Category'
+authors:
+  - given-names: andrew
+    family-names: hawk
+    email: andrewchawk@protonmail.com
+    orcid: 'https://orcid.org/0009-0000-3101-3304'
+repository-code: 'https://github.com/andrewchawk/djun-1'
+abstract: >-
+  In this paper, the author uses type theory and category theory
+  to discuss the nature of belief and knowledge.  A bit more
+  specifically, the author describes Djun, which is the
+  knowledge category and has objects like a belief type and a
+  knowledge type.
+license: Unlicense
