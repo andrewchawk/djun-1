@@ -121,7 +121,7 @@ Epistemology = {!!}
 \end{code}
 
 \section{Knowledge}
-Fundamentally, knowledge is the combination of a belief and an epistemology, although the epistemology need not actually support the belief; according to this definition, there exists a \AgdaFunction{Knowledge} term which can be characterized as ``ham sandwiches are good, because the trash needs to be emptied''.  Properly-supported, i.e., sound, knowledge, is described in \fref{sec:soundKnowledge}.
+Fundamentally, knowledge is the combination of a belief and an epistemology, although the epistemology need not actually support the belief; according to this definition, there exists a \AgdaFunction{Knowledge} term which can be characterized as ``ham sandwiches are good, because the trash needs to be emptied''.  Properly-supported, i.e., sound, knowledge, is described in \fref{sec:soundKnowledge}.  Anyway, terms of type \AgdaFunction{Knowledge} are such aforementioned combinations.
 
 \begin{code}
 Knowledge : (b e : Level) → Set (Level.suc (b ⊔ e))
