@@ -177,8 +177,10 @@ Regardless of reasonability, whilst not believing that \(B\) holds, simultaneous
 
 \begin{code}
 conditional-beliefs-are-beliefs :
-  {b c : Level} → ConditionalBelief b c → Belief b -- CB -> B;
-conditional-beliefs-are-beliefs = ConditionalBelief.belief
+  {b c : Level} → ConditionalBelief b c → Belief (b ⊔ c) -- CB -> B;
+conditional-beliefs-are-beliefs c = record
+  { belief = ConditionalBelief.condition c → Belief.belief (ConditionalBelief.belief c)
+  }
 \end{code}
 
 \begin{code}
