@@ -278,7 +278,7 @@ but-are-still-quantified :
   {b c q : Level} →
   QuantifiedBelief b {q} nullQuantification →
   Σ (Quant q) (QuantifiedBelief b {q}) -- QB0 -> QB
-but-are-still-quantified = {!!}
+but-are-still-quantified Q = nullQuantification , Q
 \end{code}
 
 \section{Conditional Quantified Belief}
