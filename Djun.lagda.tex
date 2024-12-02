@@ -177,13 +177,13 @@ Regardless of reasonability, whilst not believing that \(B\) holds, simultaneous
 
 \begin{code}
 conditional-beliefs-are-beliefs :
-  {b c : Level} → ConditionalBelief b c → Belief b -- CB -> b
+  {b c : Level} → ConditionalBelief b c → Belief b -- CB -> B;
 conditional-beliefs-are-beliefs = ConditionalBelief.belief
 \end{code}
 
 \begin{code}
 conditionals-are-like-epistemologies :
-  {b c : Level} → ConditionalBelief b c → Epistemology b
+  {b c : Level} → ConditionalBelief b c → Epistemology b -- CB -> E;
 conditionals-are-like-epistemologies = {!!}
 \end{code}
 
