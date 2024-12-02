@@ -217,15 +217,13 @@ Supp = {!!}
 
 \begin{code}
 SoundKnowledge : (b e : Level) → Set (Level.suc e ⊔ Level.suc b)
-SoundKnowledge b e =
-  Σ (Knowledge b e × Epistemology e)
-    (λ (k , e) → Supp e (proj₁ k))
+SoundKnowledge b e = Σ (Knowledge b e) (λ (k , e) → Supp e k)
 \end{code}
 
 \begin{code}
 sound-knowledge-is-knowledge :
   {b e : Level} → SoundKnowledge b e → Knowledge b e -- SK -> K;
-sound-knowledge-is-knowledge = {!!}
+sound-knowledge-is-knowledge = proj₁
 \end{code}
 
 \section{Correct Knowledge}
