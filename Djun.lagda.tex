@@ -281,6 +281,12 @@ but-are-still-quantified :
 but-are-still-quantified Q = nullQuantification , Q
 \end{code}
 
+\begin{code}
+actually-quantified-beliefs-are-beliefs-too :
+  {b c q : Level} → Σ (Quant q) (QuantifiedBelief b {q}) → Belief (b ⊔ q)
+actually-quantified-beliefs-are-beliefs-too = {!!}
+\end{code}
+
 \section{Conditional Quantified Belief}
 
 \begin{code}
